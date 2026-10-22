@@ -1,31 +1,26 @@
-# Inicio en cuatro terminales
+# Centro de aplicaciones
 
-Lanzador para COSMIC Terminal que abre cuatro mosaicos: menú de aplicaciones,
-Neofetch, aurora animada y campo estelar. El menú incluye acciones y accesos a
-aplicaciones disponibles en el sistema del usuario.
+Lanzador de terminal con una vista simple para encontrar y abrir aplicaciones
+instaladas. Lee lanzadores .desktop de usuario, sistema y Flatpak; organiza
+las apps por categoría y muestra en «Otras» las que no encajan en las secciones
+conocidas. Las herramientas del sistema están agrupadas en una vista aparte.
 
-## Requisitos
+## Controles
 
-- Linux con COSMIC Terminal (`cosmic-term`)
-- Bash y Python 3 con el módulo `curses`
-- `neofetch` para el segundo mosaico
-- `xdg-open` y las aplicaciones que se quieran mostrar en el menú (opcionales)
+- Escribe el número de una aplicación para abrirla.
+- Escribe /texto para buscar por nombre o identificador. Usa / para limpiar.
+- Escribe :categoría para filtrar, o :todas para volver al catálogo completo.
+- Usa J y K para desplazar la lista si no cabe en pantalla.
+- Pulsa H para abrir la vista de herramientas y ? para ver la ayuda.
+- Pulsa Enter para salir.
 
-## Instalar
+## Requisitos e instalación
 
-Clona este repositorio y copia los tres archivos a `~/.local/bin`:
+Necesita Linux, Bash, Python 3, gtk-launch y una terminal compatible:
+COSMIC Terminal, Kitty, Alacritty, GNOME Terminal, XFCE Terminal, Konsole o
+xterm. xdg-open es opcional y se usa para abrir carpetas.
 
-```bash
-mkdir -p ~/.local/bin
-cp iniciar-matrix-4.sh menu-inicio.py aurora-terminal.py ~/.local/bin/
-chmod +x ~/.local/bin/iniciar-matrix-4.sh
-```
-
-Desde el directorio del repositorio, también puedes ejecutar directamente:
-
-```bash
-./iniciar-matrix-4.sh
-```
-
-El lanzador abre primero el menú. Si se ejecuta desde una terminal interactiva,
-pide colocar el puntero en la pantalla deseada antes de abrir las demás ventanas.
+    mkdir -p ~/.local/bin
+    cp iniciar-matrix-4.sh menu-inicio.py ~/.local/bin/
+    chmod +x ~/.local/bin/iniciar-matrix-4.sh
+    ~/.local/bin/iniciar-matrix-4.sh
