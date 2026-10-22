@@ -4,7 +4,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 titulo="Centro de aplicaciones"
 comando="python3 '$SCRIPT_DIR/menu-inicio.py'"
-shell_command="printf '\\033]0;${titulo}\\007'; ${comando}"
+shell_command="printf '\\033]0;${titulo}\\007'; exec ${comando}"
 terminal_pid_file="${TMPDIR:-/tmp}/centro-app-terminal-${UID}.pid"
 
 close_previous_terminal() {

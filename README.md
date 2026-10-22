@@ -11,8 +11,9 @@ conocidas. Las herramientas del sistema están agrupadas en una vista aparte.
 - Escribe /texto para buscar por nombre o identificador. Usa / para limpiar.
 - Escribe :categoría para filtrar, o :todas para volver al catálogo completo.
 - Usa J y K para desplazar la lista si no cabe en pantalla.
+- Pulsa G para mostrar solo las aplicaciones de Configuración; vuelve a pulsar G para mostrar todas.
 - Pulsa H para abrir la vista de herramientas y ? para ver la ayuda.
-- Pulsa Enter para salir.
+- Pulsa 0 o Enter para salir y cerrar el menú.
 
 ## Requisitos e instalación
 

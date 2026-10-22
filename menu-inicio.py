@@ -87,14 +87,12 @@ def run_system_action(choice):
     """Ejecuta las acciones de mantenimiento sin cambiar la geometría del menú."""
     choice = choice.casefold()
     if choice == "r":
-        launcher = Path(__file__).with_name("iniciar-matrix-4.sh").resolve()
-        subprocess.Popen(
-            ["bash", str(launcher)],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            start_new_session=True,
-        )
-        return False
+        # Reinicia el catálogo en la misma terminal; abrir otra ventana deja
+        # la anterior en una shell vacía en emuladores que no se pueden cerrar
+        # de forma portable.
+        print("\033[?1049l", end="", flush=True)
+        script = str(Path(__file__).resolve())
+        os.execv(sys.executable, [sys.executable, script])
     if choice == "c":
         codex_path = shutil.which("codex")
         codex_env = os.environ.copy()
@@ -407,9 +405,9 @@ def show_menu():
                     panel_lines[panel_index].append(("app", (label, color)))
 
         line_count = max((len(lines) for lines in panel_lines), default=0)
-        controls = "Número abrir · / buscar · : categoría · h herramientas · ? ayuda · Enter salir"
+        controls = "Número abrir · G configuración · / buscar · : categoría · h herramientas · ? ayuda · 0 salir"
         if compact:
-            controls = "n abrir · / buscar · : categoría · h herramientas · ? ayuda · Enter salir"
+            controls = "n abrir · G configuración · / buscar · : categoría · h herramientas · ? ayuda · 0 salir"
         footer = textwrap.wrap(controls, width=content_width, break_long_words=True)
         list_height = max(1, height - 8 - len(footer))
         max_scroll = max(0, line_count - list_height)
@@ -458,9 +456,14 @@ def show_menu():
             choice = input("\033[1;36m› \033[0m").strip()
         except TerminalResized:
             return True
-        if not choice:
+        if not choice or choice == "0":
             return False
         command = choice.casefold()
+        if command == "g":
+            category = "Todas" if category == "Configuración" else "Configuración"
+            query = ""
+            scroll = 0
+            continue
         if command.startswith("/"):
             query = choice[1:].strip()
             scroll = 0
@@ -488,9 +491,10 @@ def show_menu():
             print("  número   Abrir una aplicación")
             print("  /texto   Buscar por nombre o identificador; / limpia la búsqueda")
             print("  :nombre  Filtrar por categoría; :todas muestra todas")
+            print("  g        Mostrar/ocultar aplicaciones de configuración")
             print("  j / k    Desplazar la lista")
             print("  h        Ver herramientas")
-            print("  Enter    Salir")
+            print("  0 / Enter  Salir y cerrar el menú")
             wait_key("Pulsa una tecla para volver…")
             continue
         if command == "h":
