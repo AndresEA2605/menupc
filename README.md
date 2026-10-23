@@ -1,9 +1,9 @@
 # Centro de aplicaciones
 
-Menú de terminal para buscar y abrir aplicaciones Linux instaladas. Lee
-lanzadores `.desktop` de usuario, sistema y Flatpak, y las organiza por
-categorías. En Hyprland con Kitty, abre la ventana en el monitor que estaba
-enfocado al iniciarla.
+Centro para buscar y abrir aplicaciones instaladas en Linux y Windows. En
+Linux ofrece un menú de terminal que lee lanzadores `.desktop` de usuario,
+sistema y Flatpak. En Windows usa una ventana gráfica y detecta los accesos
+directos del menú Inicio. Ambos organizan las aplicaciones por categorías.
 
 ## Instalación rápida
 
@@ -34,9 +34,26 @@ hyprctl reload
 El instalador deja también la línea en
 `~/.local/share/centro-aplicaciones/atajo-hyprland.conf`.
 
+## Windows
+
+En Windows, abre PowerShell desde la carpeta del proyecto y ejecuta:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\instalar-windows.ps1
+```
+
+El instalador copia el centro a `%LOCALAPPDATA%\CentroAplicaciones` y crea un
+acceso directo en la carpeta de inicio de sesión. También puedes ejecutar
+`menu-inicio-windows.py` directamente con Python 3. La ventana busca
+aplicaciones por nombre y categoría; descubre los accesos directos `.lnk` de
+los menús Inicio del usuario y del sistema.
+
+Requisitos: Windows 10 u 11 y Python 3 con Tkinter. Para el inicio automático,
+`pythonw.exe` debe estar disponible en `PATH`.
+
 ## Requisitos
 
-- Linux con una sesión gráfica y Python 3.
+- Linux con una sesión gráfica y Python 3, o Windows 10/11 con Python 3 y Tkinter.
 - Una terminal compatible: Kitty, COSMIC Terminal, Alacritty, GNOME Terminal,
   XFCE Terminal, Konsole o xterm.
 - `gtk-launch` para abrir las aplicaciones desde sus lanzadores `.desktop`.
