@@ -48,59 +48,6 @@ SECTIONS = [
 HIDEABLE_SYSTEM_SECTIONS = {"Configuración", "Sistema", "Gráficos"}
 
 
-def restart_matrix_group(launcher=None):
-    """Cierra las ventanas de esta matriz y, si se indica, la vuelve a abrir."""
-    cleanup = r'''
-import json
-import os
-import shutil
-import subprocess
-import sys
-import time
-
-launcher = sys.argv[1]
-time.sleep(0.5)
-managed_titles = {
-    "Menú de aplicaciones",
-    "Neofetch · solo visual",
-    "Aurora viva",
-    "Campo estelar",
-}
-hyprctl = shutil.which("hyprctl")
-if hyprctl:
-    result = subprocess.run([hyprctl, "-j", "clients"], capture_output=True, text=True)
-    if result.returncode == 0:
-        try:
-            clients = json.loads(result.stdout)
-        except (ValueError, TypeError):
-            clients = []
-        for client in clients:
-            window_class = client.get("class", "").casefold()
-            is_matrix = window_class == "matrix4"
-            has_managed_title = client.get("title") in managed_titles
-            if (is_matrix or has_managed_title) and client.get("address"):
-                subprocess.run(
-                    [hyprctl, "dispatch", "closewindow", f"address:{client['address']}"],
-                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-                )
-if shutil.which("pkill"):
-    subprocess.run(
-        ["pkill", "-u", str(os.getuid()), "-x", "cosmic-term"],
-        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-    )
-if launcher:
-    time.sleep(0.5)
-    os.environ["MATRIX4_INTERNAL_RESTART"] = "1"
-    os.execv(launcher, [launcher])
-'''
-    subprocess.Popen(
-        [sys.executable, "-c", cleanup, str(launcher) if launcher else ""],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-        start_new_session=True,
-    )
-
-
 SECTION_OVERRIDES = {
     "com.spotify.Client": "Más usados",
     "discord": "Más usados",
